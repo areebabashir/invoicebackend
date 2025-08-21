@@ -16,7 +16,23 @@ const app = express();
 // Middlewares
 app.use(express.json());
 app.use(morgan("dev"));
-app.use(cors({ origin: process.env.CLIENT_URL || "*" }));
+
+const allowedOrigins = [
+  process.env.CLIENT_URL || "http://localhost:5173",
+  "https://invoicefrontend-gray.vercel.app",
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  })
+);
 
 // Ensure uploads folder exists
 const uploadDir = path.join(__dirname, "uploads");
