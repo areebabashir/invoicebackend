@@ -20,6 +20,7 @@ app.use(morgan("dev"));
 const allowedOrigins = [
   process.env.CLIENT_URL || "http://localhost:5173",
   "https://invoicefrontend-gray.vercel.app",
+  "https://invoicebackend.up.railway.app",
 ];
 
 app.use(
